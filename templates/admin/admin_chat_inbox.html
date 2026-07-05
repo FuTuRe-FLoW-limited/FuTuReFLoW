@@ -1,0 +1,25 @@
+{% extends "admin/admin_base.html" %}
+{% set active = 'chat' %}
+{% block title %}Chats — Admin{% endblock %}
+
+{% block admin_content %}
+<div class="eyebrow">Conversations</div>
+<h2 style="margin-bottom:24px;">Student Chats</h2>
+
+<div class="inbox-wrap">
+  <div class="inbox-list">
+    {% for item in inbox %}
+    <a href="{{ url_for('admin_chat_view', user_id=item.user.id) }}" class="inbox-item">
+      {% if item.unread > 0 %}<span class="badge">{{ item.unread }}</span>{% endif %}
+      <div class="name">{{ item.user.name }}</div>
+      <div class="preview">{{ item.last_message or 'Koi message nahi abhi' }}</div>
+    </a>
+    {% else %}
+    <p style="padding:20px; color:var(--slate-light);">Koi student registered nahi hai abhi.</p>
+    {% endfor %}
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; color:var(--slate-light);">
+    Ek conversation select karein
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "admin/admin_base.html" %}
+{% set active = 'scholarships' %}
+{% block title %}{{ 'Edit' if scholarship else 'Add' }} Scholarship — Admin{% endblock %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+<style>
+  #descriptionEditor { background:var(--white); border-radius:6px; min-height:180px; }
+  .ql-toolbar { border-radius:6px 6px 0 0; }
+  .ql-container { border-radius:0 0 6px 6px; font-family:var(--font-body); }
+</style>
+{% endblock %}
+
+{% block admin_content %}
+<div class="eyebrow">{{ 'Edit' if scholarship else 'Add New' }}</div>
+<h2 style="margin-bottom:24px;">Scholarship {{ 'Edit Karein' if scholarship else 'Add Karein' }}</h2>
+
+<form method="POST" enctype="multipart/form-data" style="max-width:640px;" id="scholarshipForm">
+  <div class="form-group">
+    <label>Title</label>
+    <input type="text" name="title" value="{{ scholarship.title if scholarship else '' }}" required>
+  </div>
+
+  <div class="form-group">
+    <label>Country</label>
+    <input type="text" name="country" value="{{ scholarship.country if scholarship else '' }}">
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <div id="descriptionEditor">{{ scholarship.description | safe if scholarship else '' }}</div>
+    <textarea name="description" id="descriptionInput" style="display:none;"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Deadline (text likhein, jaise "31 August 2026" ya "Open all year")</label>
+    <input type="text" name="deadline" value="{{ scholarship.deadline if scholarship else '' }}">
+  </div>
+
+  <div class="form-group">
+    <label>Box Size</label>
+    <select name="size_option">
+      <option value="small" {% if scholarship and scholarship.size_option == 'small' %}selected{% endif %}>Small</option>
+      <option value="medium" {% if not scholarship or scholarship.size_option == 'medium' %}selected{% endif %}>Medium</option>
+      <option value="large" {% if scholarship and scholarship.size_option == 'large' %}selected{% endif %}>Large</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Display Order (chota number pehle dikhega)</label>
+    <input type="text" name="display_order" value="{{ scholarship.display_order if scholarship else 0 }}">
+  </div>
+
+  <div class="form-group">
+    <label>Image {% if scholarship %}(chorne se purani image rahegi){% endif %}</label>
+    <input type="file" name="image" accept="image/*">
+    {% if scholarship and scholarship.image_base64 %}
+      <img src="{{ scholarship.image_base64 }}" style="width:160px; border-radius:6px; margin-top:10px;">
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    <label style="display:flex; align-items:center; gap:8px;">
+      <input type="checkbox" name="is_active" style="width:auto;" {% if not scholarship or scholarship.is_active %}checked{% endif %}>
+      Website par active/visible rakhein
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-primary">{{ 'Update Karein' if scholarship else 'Add Karein' }}</button>
+  <a href="{{ url_for('admin_scholarships') }}" class="btn" style="color:var(--slate);">Cancel</a>
+</form>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script>
+  const quill = new Quill('#descriptionEditor', { theme: 'snow' });
+  const form = document.getElementById('scholarshipForm');
+  const hiddenInput = document.getElementById('descriptionInput');
+  form.addEventListener('submit', function () {
+    hiddenInput.value = quill.root.innerHTML;
+  });
+</script>
+{% endblock %}

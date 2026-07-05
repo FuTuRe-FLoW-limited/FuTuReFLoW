@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin — Rahbar{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="admin-wrap">
+    <aside class="admin-sidebar">
+      <div class="brand">Rahbar<span>.</span> Admin</div>
+      <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if active == 'dashboard' }}">Dashboard</a>
+      <a href="{{ url_for('admin_scholarships') }}" class="{{ 'active' if active == 'scholarships' }}">Scholarships</a>
+      <a href="{{ url_for('admin_content') }}" class="{{ 'active' if active == 'content' }}">Page Content</a>
+      <a href="{{ url_for('admin_chat_inbox') }}" class="{{ 'active' if active == 'chat' }}">Chats</a>
+      <a href="{{ url_for('admin_logout') }}">Logout</a>
+    </aside>
+    <main class="admin-main">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block admin_content %}{% endblock %}
+    </main>
+  </div>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

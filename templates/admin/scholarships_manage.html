@@ -1,0 +1,45 @@
+{% extends "admin/admin_base.html" %}
+{% set active = 'scholarships' %}
+{% block title %}Scholarships — Admin{% endblock %}
+
+{% block admin_content %}
+<div class="toolbar">
+  <div>
+    <div class="eyebrow">Manage</div>
+    <h2>Scholarships</h2>
+  </div>
+  <a href="{{ url_for('admin_scholarship_add') }}" class="btn btn-primary">+ Add New</a>
+</div>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Country</th>
+      <th>Size</th>
+      <th>Order</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in scholarships %}
+    <tr>
+      <td>{{ s.title }}</td>
+      <td>{{ s.country }}</td>
+      <td>{{ s.size_option }}</td>
+      <td>{{ s.display_order }}</td>
+      <td>{% if s.is_active %}<span style="color:var(--success);">Active</span>{% else %}<span style="color:var(--danger);">Hidden</span>{% endif %}</td>
+      <td class="actions">
+        <a href="{{ url_for('admin_scholarship_edit', scholarship_id=s.id) }}" class="btn btn-sm btn-dark">Edit</a>
+        <form method="POST" action="{{ url_for('admin_scholarship_delete', scholarship_id=s.id) }}" style="display:inline;" onsubmit="return confirm('Delete karein?');">
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" style="text-align:center; color:var(--slate-light);">Koi scholarship nahi hai abhi.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

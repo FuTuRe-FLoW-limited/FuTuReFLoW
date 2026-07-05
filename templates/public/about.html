@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}About — Rahbar{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:700px;">
+    <div class="section-title">
+      <div class="eyebrow">Hamari Kahani</div>
+      <h2>About Rahbar</h2>
+    </div>
+    <div style="background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); padding:40px; line-height:1.8;">
+      {{ content.about_text | safe }}
+    </div>
+  </div>
+</section>
+{% endblock %}

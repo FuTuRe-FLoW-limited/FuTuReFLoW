@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Chat — Rahbar{% endblock %}
+
+{% block content %}
+<div class="chat-wrap">
+  <div class="chat-header">Rahbar Team Se Baat Karein</div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-row">
+    <input type="text" id="messageInput" placeholder="Apna sawal likhein..." autocomplete="off">
+    <button class="btn btn-primary" id="sendBtn">Bhejein</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const chatMessages = document.getElementById('chatMessages');
+  const messageInput = document.getElementById('messageInput');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function renderMessages(msgs) {
+    chatMessages.innerHTML = '';
+    msgs.forEach(m => {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ' + (m.sender === 'user' ? 'bubble-user' : 'bubble-admin');
+      bubble.innerHTML = m.text.replace(/</g, '&lt;') + '<span class="time">' + m.timestamp + '</span>';
+      chatMessages.appendChild(bubble);
+    });
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function fetchMessages() {
+    fetch('{{ url_for("chat_messages") }}')
+      .then(res => res.json())
+      .then(renderMessages)
+      .catch(err => console.error(err));
+  }
+
+  function sendMessage() {
+    const text = messageInput.value.trim();
+    if (!text) return;
+    const formData = new FormData();
+    formData.append('text', text);
+    fetch('{{ url_for("chat_send") }}', { method: 'POST', body: formData })
+      .then(() => {
+        messageInput.value = '';
+        fetchMessages();
+      });
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  messageInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+  fetchMessages();
+  setInterval(fetchMessages, 3000);
+</script>
+{% endblock %}

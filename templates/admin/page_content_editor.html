@@ -1,0 +1,45 @@
+{% extends "admin/admin_base.html" %}
+{% set active = 'content' %}
+{% block title %}Page Content — Admin{% endblock %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+<style>
+  .editor-box { background:var(--white); border-radius:6px; min-height:140px; margin-bottom:8px; }
+  .ql-toolbar { border-radius:6px 6px 0 0; }
+  .ql-container { border-radius:0 0 6px 6px; font-family:var(--font-body); }
+</style>
+{% endblock %}
+
+{% block admin_content %}
+<div class="eyebrow">Website Content</div>
+<h2 style="margin-bottom:24px;">Page Content Editor</h2>
+
+<form method="POST" id="contentForm" style="max-width:700px;">
+  {% for key, label in keys %}
+    <div class="form-group">
+      <label>{{ label }}</label>
+      <div class="editor-box" id="editor-{{ key }}">{{ values[key] | safe }}</div>
+      <textarea name="{{ key }}" id="input-{{ key }}" style="display:none;"></textarea>
+    </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">Sab Save Karein</button>
+</form>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script>
+  const editors = {};
+  const keys = [{% for key, label in keys %}'{{ key }}',{% endfor %}];
+  keys.forEach(key => {
+    editors[key] = new Quill('#editor-' + key, { theme: 'snow' });
+  });
+
+  document.getElementById('contentForm').addEventListener('submit', function () {
+    keys.forEach(key => {
+      document.getElementById('input-' + key).value = editors[key].root.innerHTML;
+    });
+  });
+</script>
+{% endblock %}

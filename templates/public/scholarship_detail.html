@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ scholarship.title }} — Rahbar{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <a href="{{ url_for('scholarships_list') }}" style="font-size:0.85rem;">&larr; Sab Scholarships</a>
+    {% if scholarship.image_base64 %}
+      <img src="{{ scholarship.image_base64 }}" alt="{{ scholarship.title }}" style="width:100%; border-radius:var(--radius); margin:20px 0; box-shadow:var(--shadow);">
+    {% endif %}
+    <span class="country-tag">{{ scholarship.country }}</span>
+    <h1 style="margin-top:14px;">{{ scholarship.title }}</h1>
+    <p class="deadline" style="font-size:0.9rem; margin-bottom:24px;">Deadline: {{ scholarship.deadline }}</p>
+    <p style="font-size:1rem; color:var(--ink);">{{ scholarship.description }}</p>
+    <a href="{{ url_for('login') }}" class="btn btn-primary" style="margin-top:20px;">Is Scholarship K Liye Guidance Lein</a>
+  </div>
+</section>
+{% endblock %}

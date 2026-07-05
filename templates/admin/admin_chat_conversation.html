@@ -1,0 +1,62 @@
+{% extends "admin/admin_base.html" %}
+{% set active = 'chat' %}
+{% block title %}Chat with {{ student.name }} — Admin{% endblock %}
+
+{% block admin_content %}
+<div class="eyebrow"><a href="{{ url_for('admin_chat_inbox') }}" style="color:var(--gold);">&larr; Sab Chats</a></div>
+<h2 style="margin-bottom:20px;">{{ student.name }}</h2>
+
+<div class="chat-wrap" style="margin:0; max-width:640px;">
+  <div class="chat-header">{{ student.name }} — {{ student.email }}</div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-row">
+    <input type="text" id="messageInput" placeholder="Reply likhein..." autocomplete="off">
+    <button class="btn btn-primary" id="sendBtn">Bhejein</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const chatMessages = document.getElementById('chatMessages');
+  const messageInput = document.getElementById('messageInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const userId = {{ student.id }};
+
+  function renderMessages(msgs) {
+    chatMessages.innerHTML = '';
+    msgs.forEach(m => {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ' + (m.sender === 'admin' ? 'bubble-user' : 'bubble-admin');
+      bubble.innerHTML = m.text.replace(/</g, '&lt;') + '<span class="time">' + m.timestamp + '</span>';
+      chatMessages.appendChild(bubble);
+    });
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function fetchMessages() {
+    fetch('/admin/chat/' + userId + '/messages')
+      .then(res => res.json())
+      .then(renderMessages)
+      .catch(err => console.error(err));
+  }
+
+  function sendMessage() {
+    const text = messageInput.value.trim();
+    if (!text) return;
+    const formData = new FormData();
+    formData.append('text', text);
+    fetch('/admin/chat/' + userId + '/send', { method: 'POST', body: formData })
+      .then(() => {
+        messageInput.value = '';
+        fetchMessages();
+      });
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  messageInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+  fetchMessages();
+  setInterval(fetchMessages, 3000);
+</script>
+{% endblock %}

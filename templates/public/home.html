@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Rahbar — Scholarship Guidance{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Apni Manzil Ki Taraf Pehla Qadam</div>
+    <h1>{{ content.heading }}</h1>
+    <p class="lead">{{ content.subtext }}</p>
+    <a href="{{ url_for('login') }}" class="btn btn-primary">Guidance Shuru Karein</a>
+    <a href="{{ url_for('scholarships_list') }}" class="btn" style="color:var(--indigo);">Scholarships Dekhein &rarr;</a>
+
+    <div class="journey-path">
+      <div class="journey-step done"><div class="dot">1</div><div class="label">Consultation</div><div class="sub">Free discussion</div></div>
+      <div class="journey-step"><div class="dot">2</div><div class="label">Shortlist</div><div class="sub">Best-fit unis</div></div>
+      <div class="journey-step"><div class="dot">3</div><div class="label">Application</div><div class="sub">Full assistance</div></div>
+      <div class="journey-step"><div class="dot">4</div><div class="label">Offer</div><div class="sub">Aap kamiyab</div></div>
+    </div>
+  </div>
+</section>
+
+{% if featured %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div class="eyebrow">Featured</div>
+      <h2>Chunindaa Scholarships</h2>
+    </div>
+    <div class="card-grid">
+      {% for s in featured %}
+      <div class="card-{{ s.size_option }}">
+        <div class="scholarship-card">
+          {% if s.image_base64 %}<img src="{{ s.image_base64 }}" alt="{{ s.title }}">{% endif %}
+          <div class="body">
+            <span class="country-tag">{{ s.country }}</span>
+            <h3>{{ s.title }}</h3>
+            <p>{{ s.description[:100] }}{% if s.description|length > 100 %}...{% endif %}</p>
+            <span class="deadline">Deadline: {{ s.deadline }}</span>
+            <a href="{{ url_for('scholarship_detail', scholarship_id=s.id) }}" class="btn btn-dark btn-sm" style="margin-top:14px;">Detail Dekhein</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section-alt">
+  <div class="container" style="text-align:center;">
+    <div class="eyebrow">Kyun Rahbar?</div>
+    <h2>Agents Ko Bhaari Fees Dene Ki Zarurat Nahi</h2>
+    <p style="max-width:560px; margin:0 auto 30px;">Sirf 2000–3000 PKR mein aapko mile ga full guidance, application assistance, aur har qadam par sath.</p>
+    <a href="{{ url_for('pricing') }}" class="btn btn-primary">Pricing Dekhein</a>
+  </div>
+</section>
+{% endblock %}

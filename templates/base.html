@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Rahbar Scholarships{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  {% block navbar %}
+  <header class="navbar">
+    <div class="container">
+      <a href="{{ url_for('home') }}" class="brand">Rahbar<span>.</span></a>
+      <div style="display:flex; align-items:center;">
+        <nav>
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('scholarships_list') }}">Scholarships</a>
+          <a href="{{ url_for('pricing') }}">Pricing</a>
+          <a href="{{ url_for('about') }}">About</a>
+        </nav>
+        {% if current_user.is_authenticated and current_user.role == 'student' %}
+          <a href="{{ url_for('student_chat') }}" class="btn btn-primary btn-sm">Chat</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="btn btn-outline btn-sm">Chat / Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  {% endblock %}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container" style="padding-top:20px;">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+
+  {% block footer %}
+  <footer class="footer">
+    <div class="container">
+      Rahbar<span>.</span> — Pakistan ke students ke liye kam kharche mein scholarship guidance.
+    </div>
+  </footer>
+  {% endblock %}
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

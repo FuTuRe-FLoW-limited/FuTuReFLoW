@@ -1,0 +1,28 @@
+{% extends "admin/admin_base.html" %}
+{% set active = 'dashboard' %}
+{% block title %}Dashboard — Admin{% endblock %}
+
+{% block admin_content %}
+<div class="eyebrow">Overview</div>
+<h2 style="margin-bottom:30px;">Dashboard</h2>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="num">{{ total_students }}</div>
+    <div class="label">Students Registered</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">{{ total_scholarships }}</div>
+    <div class="label">Scholarships Listed</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">{{ unread_count }}</div>
+    <div class="label">Unread Messages</div>
+  </div>
+</div>
+
+<div style="display:flex; gap:16px;">
+  <a href="{{ url_for('admin_scholarship_add') }}" class="btn btn-primary">+ Nayi Scholarship Add Karein</a>
+  <a href="{{ url_for('admin_chat_inbox') }}" class="btn btn-dark">Chats Dekhein</a>
+</div>
+{% endblock %}

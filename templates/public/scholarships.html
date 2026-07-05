@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Scholarships — Rahbar{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div class="eyebrow">Available Now</div>
+      <h2>Scholarships</h2>
+    </div>
+
+    {% if scholarships %}
+    <div class="card-grid">
+      {% for s in scholarships %}
+      <div class="card-{{ s.size_option }}">
+        <div class="scholarship-card">
+          {% if s.image_base64 %}<img src="{{ s.image_base64 }}" alt="{{ s.title }}">{% endif %}
+          <div class="body">
+            <span class="country-tag">{{ s.country }}</span>
+            <h3>{{ s.title }}</h3>
+            <p>{{ s.description[:120] }}{% if s.description|length > 120 %}...{% endif %}</p>
+            <span class="deadline">Deadline: {{ s.deadline }}</span>
+            <a href="{{ url_for('scholarship_detail', scholarship_id=s.id) }}" class="btn btn-dark btn-sm" style="margin-top:14px;">Detail Dekhein</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align:center;">Filhaal koi scholarship listed nahi hai. Jald hi add ki jayengi.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
