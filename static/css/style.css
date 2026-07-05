@@ -1,0 +1,325 @@
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+:root {
+  --ink: #1B2A4A;
+  --indigo: #2D3F6B;
+  --gold: #C9922A;
+  --gold-light: #E8C078;
+  --cream: #FAF7F0;
+  --paper: #F1ECE0;
+  --slate: #5B6472;
+  --slate-light: #8B93A0;
+  --success: #3A7D5C;
+  --danger: #B23A3A;
+  --white: #FFFFFF;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(27, 42, 74, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+}
+
+h1 { font-size: 2.6rem; font-weight: 600; }
+h2 { font-size: 2rem; font-weight: 600; }
+h3 { font-size: 1.4rem; font-weight: 600; }
+
+p { margin: 0 0 1em; color: var(--slate); }
+
+a { color: var(--indigo); text-decoration: none; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar {
+  background: var(--ink);
+  padding: 18px 0;
+}
+.navbar .container { display: flex; justify-content: space-between; align-items: center; }
+.navbar .brand {
+  font-family: var(--font-display);
+  color: var(--cream);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.navbar .brand span { color: var(--gold); }
+.navbar nav a {
+  color: var(--cream);
+  margin-left: 26px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.navbar nav a:hover { opacity: 1; color: var(--gold-light); }
+.navbar .btn { margin-left: 26px; }
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn {
+  display: inline-block;
+  padding: 12px 26px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--font-body);
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--gold); color: var(--ink); }
+.btn-primary:hover { box-shadow: 0 6px 18px rgba(201, 146, 42, 0.35); color: var(--ink); }
+.btn-outline { background: transparent; border: 1.5px solid var(--cream); color: var(--cream); }
+.btn-dark { background: var(--ink); color: var(--cream); }
+.btn-danger { background: var(--danger); color: var(--white); }
+.btn-sm { padding: 8px 16px; font-size: 0.82rem; }
+.btn-block { width: 100%; text-align: center; }
+
+/* ============================================
+   HERO + JOURNEY PATH (signature element)
+   ============================================ */
+.hero {
+  padding: 90px 0 70px;
+  background: linear-gradient(180deg, var(--cream) 0%, var(--paper) 100%);
+}
+.hero h1 { max-width: 620px; }
+.hero .lead { font-size: 1.15rem; max-width: 520px; }
+
+.journey-path {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 60px 0 20px;
+  position: relative;
+}
+.journey-path::before {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background-image: linear-gradient(to right, var(--slate-light) 40%, transparent 0%);
+  background-size: 10px 2px;
+  background-repeat: repeat-x;
+}
+.journey-step {
+  position: relative;
+  text-align: center;
+  flex: 1;
+  z-index: 1;
+}
+.journey-step .dot {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid var(--gold);
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gold);
+}
+.journey-step.done .dot { background: var(--gold); color: var(--ink); }
+.journey-step .label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.journey-step .sub { font-size: 0.78rem; color: var(--slate-light); }
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+.scholarship-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+.scholarship-card:hover { transform: translateY(-4px); }
+.scholarship-card img { width: 100%; height: 170px; object-fit: cover; }
+.scholarship-card .body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.scholarship-card .country-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gold);
+  border: 1px solid var(--gold-light);
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+.scholarship-card .deadline { font-family: var(--font-mono); font-size: 0.78rem; color: var(--slate-light); margin-top: auto; }
+
+.card-small { grid-column: span 1; }
+.card-medium { grid-column: span 1; }
+.card-large { grid-column: 1 / -1; }
+.card-large .scholarship-card { flex-direction: row; }
+.card-large .scholarship-card img { width: 320px; height: auto; }
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+.section { padding: 70px 0; }
+.section-alt { background: var(--paper); }
+.section-title { text-align: center; max-width: 600px; margin: 0 auto 40px; }
+.section-title h2 { margin-bottom: 10px; }
+
+/* ============================================
+   FORMS
+   ============================================ */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px;
+  max-width: 460px;
+  margin: 60px auto;
+}
+.form-group { margin-bottom: 20px; }
+label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"],
+textarea, select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #E2DCC8;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: var(--cream);
+  color: var(--ink);
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+input[type="file"] { font-family: var(--font-body); font-size: 0.85rem; }
+
+.flash {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+}
+.flash-error { background: #FBE7E7; color: var(--danger); }
+.flash-success { background: #E4F2EA; color: var(--success); }
+
+/* ============================================
+   ADMIN LAYOUT
+   ============================================ */
+.admin-wrap { display: flex; min-height: 100vh; }
+.admin-sidebar {
+  width: 230px;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 30px 0;
+  flex-shrink: 0;
+}
+.admin-sidebar .brand { font-family: var(--font-display); font-size: 1.15rem; padding: 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+.admin-sidebar .brand span { color: var(--gold); }
+.admin-sidebar a {
+  display: block;
+  padding: 12px 24px;
+  color: var(--cream);
+  opacity: 0.75;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.admin-sidebar a:hover, .admin-sidebar a.active { opacity: 1; background: rgba(255,255,255,0.06); border-right: 3px solid var(--gold); }
+.admin-main { flex: 1; padding: 40px; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+.stat-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+.stat-card .num { font-family: var(--font-mono); font-size: 2rem; color: var(--ink); font-weight: 600; }
+.stat-card .label { font-size: 0.82rem; color: var(--slate-light); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.admin-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.admin-table th { text-align: left; background: var(--paper); font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; color: var(--slate); padding: 14px 18px; }
+.admin-table td { padding: 14px 18px; border-top: 1px solid var(--paper); font-size: 0.9rem; }
+.admin-table .actions a, .admin-table .actions button { margin-right: 10px; }
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+
+/* ============================================
+   CHAT
+   ============================================ */
+.chat-wrap { max-width: 700px; margin: 40px auto; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; height: 70vh; display: flex; flex-direction: column; }
+.chat-header { background: var(--ink); color: var(--cream); padding: 18px 24px; font-weight: 600; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 24px; background: var(--paper); }
+.bubble { max-width: 70%; padding: 10px 16px; border-radius: 14px; margin-bottom: 12px; font-size: 0.92rem; line-height: 1.4; }
+.bubble-user { background: var(--indigo); color: var(--white); margin-left: auto; border-bottom-right-radius: 3px; }
+.bubble-admin { background: var(--white); color: var(--ink); margin-right: auto; border-bottom-left-radius: 3px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.bubble .time { display: block; font-size: 0.68rem; opacity: 0.6; margin-top: 4px; font-family: var(--font-mono); }
+.chat-input-row { display: flex; padding: 16px; border-top: 1px solid var(--paper); gap: 10px; }
+.chat-input-row input { flex: 1; }
+
+/* ============================================
+   INBOX (WhatsApp style)
+   ============================================ */
+.inbox-wrap { display: flex; max-width: 1000px; margin: 30px auto; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; height: 75vh; }
+.inbox-list { width: 300px; border-right: 1px solid var(--paper); overflow-y: auto; }
+.inbox-item { display: block; padding: 16px 20px; border-bottom: 1px solid var(--paper); }
+.inbox-item:hover { background: var(--paper); }
+.inbox-item .name { font-weight: 600; color: var(--ink); font-size: 0.92rem; }
+.inbox-item .preview { font-size: 0.8rem; color: var(--slate-light); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inbox-item .badge { background: var(--gold); color: var(--ink); font-family: var(--font-mono); font-size: 0.7rem; padding: 2px 7px; border-radius: 10px; float: right; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer { background: var(--ink); color: var(--slate-light); padding: 40px 0; text-align: center; font-size: 0.85rem; }
+.footer span { color: var(--gold); }
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.9rem; }
+  .journey-path { flex-direction: column; gap: 24px; }
+  .journey-path::before { display: none; }
+  .card-large .scholarship-card { flex-direction: column; }
+  .card-large .scholarship-card img { width: 100%; }
+  .admin-wrap { flex-direction: column; }
+  .admin-sidebar { width: 100%; }
+  .inbox-wrap { flex-direction: column; height: auto; }
+  .inbox-list { width: 100%; max-height: 240px; }
+}
